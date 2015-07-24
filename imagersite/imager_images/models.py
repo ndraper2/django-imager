@@ -38,11 +38,6 @@ class Album(models.Model):
     date_modified = models.DateField(auto_now=True)
     date_published = models.DateField(auto_now=True)
 
-    def clean(self):
-        for photo in self.photos:
-            if photo.user is not self.user:
-                photo = None
-
     CHOICES = (
         ('Public', 'Public'),
         ('Private', 'Private'),
