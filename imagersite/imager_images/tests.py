@@ -22,7 +22,7 @@ class UserFactory(factory.Factory):
 class PhotoFactory(factory.Factory):
     class Meta:
         model = Photo
-    title = fake.sentences(nb=1)
+    title = fake.sentences(nb=1)[0]
     description = fake.text()
     file = fake.mime_type()
 
@@ -30,7 +30,7 @@ class PhotoFactory(factory.Factory):
 class AlbumFactory(factory.Factory):
     class Meta:
         model = Album
-    title = fake.sentences(nb=1)
+    title = fake.sentences(nb=1)[0]
     description = fake.text()
 
 
@@ -41,21 +41,21 @@ class PhotoTestCase(TestCase):
         user = UserFactory.create()
         user.save()
         for i in range(100):
-            _user = ImagerProfile.objects.get(user__username='user0')
+            _user = ImagerProfile.objects.get(user__username='user1')
             photo = PhotoFactory.create(user=_user)
-            import pdb; pdb.set_trace()
             photo.save()
 
     @classmethod
     def tearDownClass(cls):
         User.objects.all().delete()
+        Photo.objects.all().delete()
         super(PhotoTestCase, cls).tearDownClass()
 
     def test_photos_are_created(self):
         self.assertTrue(Photo.objects.count() == 100)
 
     def test_photos_belong_to_user(self):
-        user = ImagerProfile.objects.get(user__username='user0')
+        user = ImagerProfile.objects.get(user__username='user1')
         self.assertEqual(100, len(user.photos.all()))
 
     def test_photos_do_not_belong_to_other_user(self):
@@ -65,33 +65,33 @@ class PhotoTestCase(TestCase):
             new_user.photos.all()
 
 
-# class AlbumTestCase(TestCase):
-#     @classmethod
-#     def setUpClass(cls):
-#         super(AlbumTestCase, cls).setUpClass()
-#         _user = UserFactory.create()
-#         _user.save()
-#         _cover = PhotoFactory.create(user=_user.profile)
-#         _cover.save()
-#         import pdb; pdb.set_trace()
-#         for i in range(5):
-#             album = AlbumFactory.create(cover=_cover, user=_user.profile)
-#             album.save()
+class AlbumTestCase(TestCase):
+    @classmethod
+    def setUpClass(cls):
+        super(AlbumTestCase, cls).setUpClass()
+        _user = UserFactory.create()
+        _user.save()
+        _cover = PhotoFactory.create(user=_user.profile)
+        _cover.save()
+        for i in range(5):
+            album = AlbumFactory.create(cover=_cover, user=_user.profile)
+            album.save()
 
-#     @classmethod
-#     def tearDownClass(cls):
-#         Album.objects.all().delete()
-#         super(AlbumTestCase, cls).tearDownClass()
+    @classmethod
+    def tearDownClass(cls):
+        Album.objects.all().delete()
+        super(AlbumTestCase, cls).tearDownClass()
 
-#     def test_albums_are_created(self):
-#         self.assertTrue(Album.objects.count() == 5)
+    def test_albums_are_created(self):
+        self.assertTrue(Album.objects.count() == 5)
 
-    # def test_attributes_save(self):
-    #     profile = ImagerProfile.objects.get(user__username='user0')
-    #     profile.camera = 'Most amazing camera'
-    #     profile.address = '123 amazing drive'
-    #     profile.website = 'www.amazing.com'
-    #     profile.photography_type = 'amazing'
-    #     profile.save()
-    #     self.assertTrue(ImagerProfile.objects.count() == 1000)
-    #     self.assertEqual('Most amazing camera', profile.camera)
+    def test_add_photos_to_albums(self):
+        album = Album.objects.all()[0]
+        _user = ImagerProfile.objects.all()[0]
+        for i in range(5):
+            photo = PhotoFactory.create(user=_user)
+            photo.save()
+        photos = list(Photo.objects.all())
+        album.photos.add(*photos)
+        self.assertTrue(len(album.photos.all()) == 6)
+        self.assertTrue(album.user == _user)
