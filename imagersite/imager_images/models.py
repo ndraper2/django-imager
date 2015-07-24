@@ -1,6 +1,6 @@
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
-from imager_profile import UserProfile
+from imager_profile.models import ImagerProfile
 
 
 @python_2_unicode_compatible
@@ -21,7 +21,7 @@ class Photo(models.Model):
     published = models.CharField(max_length=8, choices=CHOICES,
         default='Private')
 
-    user = models.ForeignKey(UserProfile, related_name='photos', null=False)
+    user = models.ForeignKey(ImagerProfile, related_name='photos', null=False)
 
     def __str__(self):
         return self.title
@@ -29,9 +29,8 @@ class Photo(models.Model):
 
 @python_2_unicode_compatible
 class Album(models.Model):
-    user = models.ForeignKey(UserProfile, related_name='albums', null=False)
-    photos = models.ManyToManyField(Photo, related_name='albums',
-        limit_choices_to=user)
+    user = models.ForeignKey(ImagerProfile, related_name='albums', null=False)
+    photos = models.ManyToManyField(Photo, related_name='albums')
     title = models.CharField(max_length=128,
         help_text="What is your album's title?")
     description = models.TextField(help_text="Describe your album.")
@@ -47,11 +46,13 @@ class Album(models.Model):
     published = models.CharField(max_length=8, choices=CHOICES,
         default='Private')
 
-    cover = models.ForeignKey(Photo, related_name='cover_for',
-        limit_choices_to=photos)
+    cover = models.ForeignKey(Photo, related_name='cover_for')
+
+    def __str__(self):
+        return self.title
 
 
-@python_2_unicode_compatible
-class Cover(models.Model):
-    photo = models.ForeignKey(Photo, related_name='covers')
-    album = models.OneToOneField(Album, related_name='cover')
+# @python_2_unicode_compatible
+# class Cover(models.Model):
+#     photo = models.ForeignKey(Photo, related_name='covers')
+#     album = models.OneToOneField(Album, related_name='cover')
