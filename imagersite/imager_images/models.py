@@ -1,6 +1,9 @@
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
 from imager_profile.models import ImagerProfile
+from django.db.models.signals import post_delete
+from django.dispatch import receiver
+from django.contrib.auth.models import User
 
 
 @python_2_unicode_compatible
@@ -50,3 +53,19 @@ class Album(models.Model):
 
     def __str__(self):
         return self.title
+
+
+@receiver(post_delete, sender=User)
+def delete_photos_for_user(sender, instance, **kwargs):
+    try:
+        instance.photos.all().delete()
+    except Photo.DoesNotExist:
+        pass
+
+
+@receiver(post_delete, sender=User)
+def delete_albums_for_user(sender, instance, **kwargs):
+    try:
+        instance.albums.all().delete()
+    except Album.DoesNotExist:
+        pass
