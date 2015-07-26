@@ -40,7 +40,6 @@ class Album(models.Model):
     user = models.ForeignKey(ImagerProfile, related_name='albums', null=False)
     photos = models.ManyToManyField(Photo,
                                     related_name='albums',
-                                    null=True,
                                     blank=True)
     title = models.CharField(max_length=128,
                              help_text="What is your album's title?")
@@ -52,7 +51,7 @@ class Album(models.Model):
     published = models.CharField(max_length=8, choices=CHOICES,
                                  default=PRIVATE)
 
-    cover = models.ForeignKey(Photo, related_name='cover_for')
+    cover = models.ForeignKey(Photo, related_name='cover_for', blank=True)
 
     def __str__(self):
         return self.title
