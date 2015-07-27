@@ -20,30 +20,29 @@ class UserFactory(factory.Factory):
 
 class ProfileTestCase(TestCase):
 
-    @classmethod
-    def setUpClass(cls):
-        super(ProfileTestCase, cls).setUpClass()
+    def setUp(self):
+        pass
+
+    def tearDown(self):
+        User.objects.all().delete()
+
+    def test_profile_is_created_when_user_is_saved(self):
+        self.assertEqual(len(ImagerProfile.objects.all()), 0)
+        user = UserFactory.create()
+        user.save()
+        self.assertTrue(ImagerProfile.objects.count() == 1)
+
+    def test_create_many_users(self):
         for i in range(100):
             user = UserFactory.create()
             user.save()
-
-    @classmethod
-    def tearDownClass(cls):
-        User.objects.all().delete()
-        super(ProfileTestCase, cls).tearDownClass()
-
-    def test_profile_is_created_when_user_is_saved(self):
-        self.assertTrue(ImagerProfile.objects.count() == 100)
+        self.assertEqual(len(ImagerProfile.objects.all()), 100)
 
     def test_profile_str_is_user_username(self):
-        profile = ImagerProfile.objects.get(user__username='user50')
+        user = UserFactory.create(username='user1')
+        user.save()
+        profile = ImagerProfile.objects.get(user__username='user1')
         self.assertEqual(str(profile), profile.user.username)
-
-    def test_delete_user(self):
-        profile = User.objects.get(username='user99')
-        profile.delete()
-        with self.assertRaises(ImagerProfile.DoesNotExist):
-            ImagerProfile.objects.get(user__username='user99')
 
     def test_attributes_save(self):
         profile = ImagerProfile.objects.get(user__username='user0')
@@ -54,3 +53,10 @@ class ProfileTestCase(TestCase):
         profile.save()
         self.assertTrue(ImagerProfile.objects.count() == 100)
         self.assertEqual('Most amazing camera', profile.camera)
+
+    def test_delete_profile_deletes_user(self):
+        user = UserFactory.create(username='user1')
+        user.save()
+        self.assertEqual(len(ImagerProfile.objects.all()), 1)
+        user.profile.delete()
+        self.assertEqual(len(User.objects.all()), 0)

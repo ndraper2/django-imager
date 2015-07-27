@@ -73,6 +73,7 @@ class AlbumTestCase(TestCase):
     @classmethod
     def tearDown(self):
         Album.objects.all().delete()
+        User.objects.all().delete()
 
     def test_albums_are_created(self):
         self.assertTrue(Album.objects.count() == 5)
