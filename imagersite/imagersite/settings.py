@@ -121,3 +121,5 @@ INCLUDE_AUTH_URLS = False
 LOGIN_REDIRECT_URL = 'home'
 
 SITE_ID = 1
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
