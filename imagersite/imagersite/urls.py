@@ -16,15 +16,17 @@ Including another URLconf
 from django.conf.urls import include, url
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.contrib.auth.views import login, logout
+# from django.contrib.auth.views import login, logout
 from django.views.generic import TemplateView
 from django.conf import settings
-# from registration.backends.default.urls import login
+# from registration.auth_urls import logout
 
 urlpatterns = [
     url(r'^$', TemplateView.as_view(template_name='home.html'), name='home'),
+    url(r'', include('registration.auth_urls')),
     # url(r'^login/$', login, name='login'),
-    url(r'^logout/$', logout, {'next_page': '/'}, name='logout'),
+    # url(r'^logout/$', include('registration.backends.default.urls')),
+        # {'next_page': '/'}, name='logout'),
     url(r'^accounts/', include('registration.backends.default.urls')),
     url(r'^admin/', include(admin.site.urls)),
 ]
