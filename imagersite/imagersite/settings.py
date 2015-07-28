@@ -37,8 +37,10 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # 'django.contrib.sites',
     'imager_profile',
     'imager_images',
+    'registration',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -57,7 +59,7 @@ ROOT_URLCONF = 'imagersite.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['', 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -69,6 +71,8 @@ TEMPLATES = [
         },
     },
 ]
+
+TEMPLATE_DEBUG = True
 
 WSGI_APPLICATION = 'imagersite.wsgi.application'
 
@@ -105,3 +109,5 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATIC_URL = '/static/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
+
+ACCOUNT_ACTIVATION_DAYS = 7
