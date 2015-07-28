@@ -86,3 +86,7 @@ a:hover {
 .required {
     padding-bottom: 0.7em;
 }
+
+#main-page table {
+    margin-bottom: 10px;
+}
