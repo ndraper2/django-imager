@@ -45,13 +45,15 @@ class ProfileTestCase(TestCase):
         self.assertEqual(str(profile), profile.user.username)
 
     def test_attributes_save(self):
+        user = UserFactory.create(username='user0')
+        user.save()
         profile = ImagerProfile.objects.get(user__username='user0')
         profile.camera = 'Most amazing camera'
         profile.address = '123 amazing drive'
         profile.website = 'www.amazing.com'
         profile.photography_type = 'amazing'
         profile.save()
-        self.assertTrue(ImagerProfile.objects.count() == 100)
+        profile = ImagerProfile.objects.get(user__username='user0')
         self.assertEqual('Most amazing camera', profile.camera)
 
     def test_delete_profile_deletes_user(self):
