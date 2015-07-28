@@ -1,0 +1,37 @@
+header {
+    font-size: 12pt;
+    background: linear-gradient(to right, black, rgba(0, 0, 0, 0)), url('http://www.theredballoonphotography.com/blog/wp-content/uploads/p3/images/masthead_image1_1292402628.jpg');
+    color: white;
+    border-bottom: 2px solid black;
+    box-shadow: .25px .25px .5px .5px black;
+    padding: 3px 10px 0px 15px;
+    text-align: left;
+    }
+
+body {
+    margin: 0;
+}
+
+.home {
+    padding-left: 5em;
+    padding-right:; 5em;
+}
+
+a {
+    text-decoration: none;
+    color: white;
+}
+
+a:hover {
+    color: #003f87;
+}
+
+.menu ul {
+    list-style-type: none;
+    padding-left: 0em;
+}
+
+.menu li {
+        display: inline;
+        padding: 0em 2em 0em 0em;
+}

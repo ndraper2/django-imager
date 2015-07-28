@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block body %}
+
+<div class='home'>
+<h2>Join Us</h2>
+    <p>
+    Do you know what's awesome?  Pictures.  You know what's
+       even better?  Sharing them with people.  You should do
+       that here, because it's quick and easy and awesome.  Like
+       you.  Well, except - I mean - we're not calling you easy
+       or anything.  Easy photos.  Easy photo sharing.  That's
+       what we're all about.
+    </p>
+    {% if photo %}
+    <img src='{{ photo.file }}'height='500' width='500'/>
+    {% else %}
+    <img src='../static/beach.jpg' alt='default' height='500' width='500'/>
+    {% endif %}
+</div>
+
+{% endblock %}
