@@ -56,11 +56,16 @@ MIDDLEWARE_CLASSES = (
 )
 
 ROOT_URLCONF = 'imagersite.urls'
+LOGIN_REDIRECT_URL = '/profile/'
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['templates'],
+        'DIRS': [
+            'templates',
+            'imager_images',
+            'imager_profile',
+            ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -117,8 +122,6 @@ MEDIA_URL = '/media/'
 ACCOUNT_ACTIVATION_DAYS = 7
 
 INCLUDE_AUTH_URLS = False
-
-LOGIN_REDIRECT_URL = 'home'
 
 SITE_ID = 1
 
