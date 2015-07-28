@@ -67,3 +67,22 @@ a:hover {
         display: inline;
         padding: 0em 0em 0em 2em;
 }
+
+.helptext {
+    font-style: italic;
+    font-size: 0.7em;
+    float: left;
+    clear: both;
+}
+
+#id_username,
+#id_email,
+#id_password1,
+#id_password2
+ {
+    float: right;
+}
+
+.required {
+    padding-bottom: 0.7em;
+}
