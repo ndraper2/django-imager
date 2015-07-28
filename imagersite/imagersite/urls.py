@@ -24,6 +24,8 @@ urlpatterns = [
     url(r'', include('registration.auth_urls')),
     url(r'^accounts/', include('registration.backends.default.urls')),
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^profile/', TemplateView.as_view(template_name='profile.html'),
+        name='profile')
 ]
 
 if settings.DEBUG:
