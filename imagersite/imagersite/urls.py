@@ -24,9 +24,6 @@ from django.conf import settings
 urlpatterns = [
     url(r'^$', TemplateView.as_view(template_name='home.html'), name='home'),
     url(r'', include('registration.auth_urls')),
-    # url(r'^login/$', login, name='login'),
-    # url(r'^logout/$', include('registration.backends.default.urls')),
-        # {'next_page': '/'}, name='logout'),
     url(r'^accounts/', include('registration.backends.default.urls')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^profile/', TemplateView.as_view(template_name='profile.html'),
