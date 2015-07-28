@@ -53,6 +53,11 @@ class LoginOutTestCase(TestCase):
 
 
 class RegisterTestCase(TestCase):
+    def setUp(self):
+        user = UserFactory()
+        user.set_password('secret')
+        user.save()
+
     def tearDown(self):
         User.objects.all().delete()
 
@@ -74,3 +79,16 @@ class RegisterTestCase(TestCase):
                          'Account activation on example.com')
         profile = ImagerProfile.objects.get(user__username='user1')
         self.assertEqual(profile.is_active, False)
+
+    def test_register_already_exists(self):
+        c = Client()
+        response = c.post(
+            '/accounts/register/',
+            {
+                'username': 'userbob',
+                'email': 'bob@example.com',
+                'password1': 'secret',
+                'password2': 'secret',
+            },
+            follow=True)
+        self.assertIn('<input id="id_password1"', response.content)
