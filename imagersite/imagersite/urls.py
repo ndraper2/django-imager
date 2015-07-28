@@ -19,12 +19,12 @@ from django.contrib import admin
 from django.contrib.auth.views import login, logout
 from django.views.generic import TemplateView
 from django.conf import settings
+# from registration.backends.default.urls import login
 
 urlpatterns = [
-    url(r'^$', TemplateView.as_view(template_name='home.html')),
-    url(r'^login/$', login, {'template_name': 'login.html'},
-        name='login'),
-    url(r'^logout/$', logout, name='logout'),
+    url(r'^$', TemplateView.as_view(template_name='home.html'), name='home'),
+    # url(r'^login/$', login, name='login'),
+    url(r'^logout/$', logout, {'next_page': '/'}, name='logout'),
     url(r'^accounts/', include('registration.backends.default.urls')),
     url(r'^admin/', include(admin.site.urls)),
 ]
