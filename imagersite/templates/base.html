@@ -4,6 +4,7 @@
     <head>
         <title>Django-Imager</title>
         <link href="{% static 'style.css' %}" rel="stylesheet" type="text/css">
+        <link href='http://fonts.googleapis.com/css?family=Francois+One' rel='stylesheet' type='text/css'>
     </head>
     <body>
         <header>
@@ -11,7 +12,8 @@
             <nav class='menu'>
             <ul>
                 {% if user.is_authenticated %}
-                    <li>{{ user.username }}</li>
+                    <li>Welcome {{ user.username }}!</li>
+                    <li><a href="{% url 'auth_logout' %}">Log Out</a></li>
                 {% else %}
                     <li><a href="{% url 'auth_login' %}">Log In</a></li>
                 {% endif %}
@@ -21,8 +23,10 @@
             </ul>
             </nav>
         </header>
+        <section id='main-page'>
         {% block content %}
         {% endblock %}
+        </section>
         <footer>
             <p>&copy2015 Written by Megan Slater and Nicholas Draper</p>
         </footer>

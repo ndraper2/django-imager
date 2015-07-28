@@ -1,20 +1,47 @@
 header {
     font-size: 12pt;
-    background: linear-gradient(to right, black, rgba(0, 0, 0, 0)), url('http://www.theredballoonphotography.com/blog/wp-content/uploads/p3/images/masthead_image1_1292402628.jpg');
+    background: linear-gradient(to left, black, rgba(0, 0, 0, 0)), url('http://s3.gothick.org.uk/cosmos-gothick-wordpress-twenty-ten-header.jpg');
+    background-repeat: no-repeat;
     color: white;
     border-bottom: 2px solid black;
     box-shadow: .25px .25px .5px .5px black;
-    padding: 3px 10px 0px 15px;
-    text-align: left;
+    padding: 3px 15px 0px 15px;
+    text-align: right;
+    background-size: 100%;
     }
 
 body {
     margin: 0;
+    padding: 0;
+    font-family: sans-serif;
 }
 
-.home {
-    padding-left: 5em;
-    padding-right:; 5em;
+footer {
+    border-top: 2px solid black;
+    box-shadow: .5px 0px 0px 0px;
+    margin-top: 1em;
+    text-align: center;
+}
+
+h1, h2, h3, h4, h5 {
+    font-family: 'Francois One', sans-serif;
+}
+
+#main-page {
+    margin-left: 15%;
+    margin-right: 15%;
+}
+
+#main-page img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 10px;
+    padding-bottom: 2em;
+    border: 1px solid #000;
+    -webkit-box-shadow: 0.5em 0.5em 0.5em #777;
+        -moz-box-shadow: 0.5em 0.5em 0.5em #777;
+            box-shadow: 0.5em 0.5em 0.5em #777;
 }
 
 header a {
@@ -22,8 +49,13 @@ header a {
     color: white;
 }
 
-a:hover {
+#main-page a {
+    text-decoration: none;
     color: #003f87;
+}
+
+a:hover {
+    font-weight: bold;
 }
 
 .menu ul {
@@ -33,5 +65,5 @@ a:hover {
 
 .menu li {
         display: inline;
-        padding: 0em 2em 0em 0em;
+        padding: 0em 0em 0em 2em;
 }
