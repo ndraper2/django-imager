@@ -57,6 +57,7 @@ MIDDLEWARE_CLASSES = (
 )
 
 ROOT_URLCONF = 'imagersite.urls'
+LOGIN_URL = 'auth_login'
 LOGIN_REDIRECT_URL = '/profile/'
 
 TEMPLATES = [
