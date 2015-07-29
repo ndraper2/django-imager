@@ -16,12 +16,7 @@ Including another URLconf
 from django.conf.urls import include, url
 from django.conf.urls.static import static
 from django.contrib import admin
-<<<<<<< HEAD
 from imagersite.views import IndexView, TemplateView
-=======
-from django.views.generic import TemplateView
-from imagersite.views import IndexView
->>>>>>> 90526c8c17e7b49ceb2f40c48b2da6015e4b07b4
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 
@@ -30,19 +25,13 @@ urlpatterns = [
     url(r'', include('registration.auth_urls')),
     url(r'^accounts/', include('registration.backends.default.urls')),
     url(r'^admin/', include(admin.site.urls)),
-<<<<<<< HEAD
-    url(r'^profile/', login_required(TemplateView.as_view(
-                                     template_name='profile.html')),
+    url(r'^profile/',
+        login_required(TemplateView.as_view(template_name='profile.html')),
         name='profile'),
     url(r'^images/library/', login_required(TemplateView.as_view(
                                             template_name='library.html')),
         name='library'),
-=======
-    url(r'^profile/',
-        login_required(TemplateView.as_view(template_name='profile.html')),
-        name='profile'),
     # url(r'^images/', include('imager_images.urls'))
->>>>>>> 90526c8c17e7b49ceb2f40c48b2da6015e4b07b4
 ]
 
 if settings.DEBUG:
