@@ -106,8 +106,20 @@ class ProfileViewTestCase(TestCase):
         c = Client()
         c.login(username='userbob', password='secret')
         response = c.get('/profile/')
-        import pdb; pdb.set_trace()
         self.assertIn('Your camera is a Canon', response.content)
         self.assertIn('You have <strong>1</strong> albums', response.content)
         self.assertIn('You have a total of <strong>1</strong> photos',
+                      response.content)
+
+    def test_eve_doesnt_see_bob(self):
+        c = Client()
+        c.login(username='usereve', password='secret')
+        response = c.get('/profile/')
+        self.assertIn('You have <strong>0</strong> albums', response.content)
+
+    def test_unauthenticated_redirect(self):
+        c = Client()
+        response = c.get('/profile/', follow=True)
+        self.assertEqual(len(response.redirect_chain), 1)
+        self.assertIn('form method="post" action="/login/"',
                       response.content)
