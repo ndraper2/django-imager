@@ -70,7 +70,6 @@ class AlbumTestCase(TestCase):
             album = AlbumFactory.create(cover=cover, user=user.profile)
             album.save()
 
-    @classmethod
     def tearDown(self):
         Album.objects.all().delete()
         User.objects.all().delete()

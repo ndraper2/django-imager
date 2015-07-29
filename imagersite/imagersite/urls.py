@@ -28,7 +28,8 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^profile/',
         login_required(TemplateView.as_view(template_name='profile.html')),
-        name='profile')
+        name='profile'),
+    # url(r'^images/', include('imager_images.urls'))
 ]
 
 if settings.DEBUG:
