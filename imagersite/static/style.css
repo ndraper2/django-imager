@@ -90,3 +90,26 @@ a:hover {
 #main-page table {
     margin-bottom: 10px;
 }
+
+#join_date {
+    float:right;
+    margin-top: 10px;
+    font-size: 0.9em;
+}
+
+#usage {
+    float: left;
+    clear: both;
+}
+
+#photo_specs {
+    float: right;
+    text-align: right;
+    clear: both;
+    margin-top: -3.3em;
+}
+
+#address {
+    clear: both;
+    padding-top: 2em;
+}
