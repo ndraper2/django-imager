@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% load thumbnail %}
+{% block content %}
+
+<div class='imager-library'>
+
+You should save space by displaying small images (thumbnails) in a grid format.
+
+To best accomplish this task, you'll install another Django add-on application,
+sorl-thumbnail (Links to an external site.). The add-on will allow you to easily
+designate dimensions for thumbnails and will handle creating appropriately sized
+copies of uploaded images for you.  You may use the database cache store when
+configuration this application.
+
+<h2>{{ user.first_name }} {{ user.last_name }}</h2>
+
+{% for album in user.profile.albums.all %}
+<h3>{{album.title}}</h3>
+<p>{{album.description}}</p>
+{% if album.cover %}
+
+{% thumbnail album.cover "200x100" as im %}
+
+{{im}}
+<img src='{{im.url}}'/>
+{% endthumbnail %}
+{% else %}
+<img src='/static/thumbnail.jpg'>
+{% endif %}
+{% endfor %}
+
+{% for photo in user.profile.photos.all %}
+<h3>{{photo.title}}</h3>
+{% thumbnail photo "200x100" as im %}
+<img src='/media/{{im.file}}'/>
+{% endthumbnail %}
+{% endfor %}
+
+
+Go to your <a href="url 'profile'">Profile</a>.
+
+</div>
+
+{% endblock %}
