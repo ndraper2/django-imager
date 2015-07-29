@@ -9,8 +9,8 @@
 
 
 <p id='usage'>
-You have <strong>{{ user.profile.albums|length }}</strong> albums<br/>
-you have a total of <strong>{{ user.profile.photos|length }}</strong> photos.
+You have <strong>{{ user.profile.albums.all|length }}</strong> albums<br/>
+you have a total of <strong>{{ user.profile.photos.all|length }}</strong> photos.
 </p>
 
 <p id='photo_specs'>

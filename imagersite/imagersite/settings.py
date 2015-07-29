@@ -42,6 +42,7 @@ INSTALLED_APPS = (
     'imager_images',
     'registration',
     'bootstrap3',
+    'sorl.thumbnail',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -126,3 +127,10 @@ INCLUDE_AUTH_URLS = False
 SITE_ID = 1
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+        'LOCATION': '127.0.0.1:11211',
+    }
+}
