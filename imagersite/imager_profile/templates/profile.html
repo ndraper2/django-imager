@@ -3,24 +3,26 @@
 {% block content %}
 
 <div class='imager-profile'>
+<p id='join_date'>Joined on {{ user.date_joined|date:"D d M Y" }}</p>
 <h2>{{ user.first_name }} {{ user.last_name }}</h2>
 <p><a href="{{ user.profile.website }}"> {{user.profile.website }}</a></p>
-<p id='join_date'>Joined on {{ user.date_joined|date:"D d M Y" }}</p>
-
-<ul id='usage'>
-  <li><strong>{{ user.profile.albums|length }}</strong> albums</li>
-  <li><strong>{{ user.profile.photos|length }}</strong> photos</li>
-</ul>
-
-<ul id='photo_specs'>
-  <li>You specialize in {{ user.profile.photography_type }} photography.</li>
-  <li>Your camera is a {{ user.profile.camera }}.</li>
-</ul>
 
 
-<p id='address'>{{ user.profile.address }}</p>
+<p id='usage'>
+You have <strong>{{ user.profile.albums|length }}</strong> albums<br/>
+you have a total of <strong>{{ user.profile.photos|length }}</strong> photos.
+</p>
 
-<a href="url 'library'">Library</a>
+<p id='photo_specs'>
+You specialize in {{ user.profile.photography_type }} photography.<br/>
+Your camera is a {{ user.profile.camera }}.
+</p>
+
+<p id='address'>
+<strong>Address</strong><br/>
+{{ user.profile.address }}</p>
+
+Go to your <a href="url 'library'">Library</a>.
 
 </div>
 
