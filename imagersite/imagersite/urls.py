@@ -16,15 +16,18 @@ Including another URLconf
 from django.conf.urls import include, url
 from django.conf.urls.static import static
 from django.contrib import admin
+from django.views.generic import TemplateView
 from imagersite.views import IndexView
 from django.conf import settings
+from django.contrib.auth.decorators import login_required
 
 urlpatterns = [
     url(r'^$', IndexView.as_view(), name='home'),
     url(r'', include('registration.auth_urls')),
     url(r'^accounts/', include('registration.backends.default.urls')),
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^profile/', IndexView.as_view(template_name='profile.html'),
+    url(r'^profile/',
+        login_required(TemplateView.as_view(template_name='profile.html')),
         name='profile')
 ]
 
