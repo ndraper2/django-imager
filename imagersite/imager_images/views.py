@@ -1,6 +1,7 @@
 from django.views.generic import DetailView
 from django.http import HttpResponseForbidden
 from imager_images.models import Photo, Album
+from django import forms
 
 
 class PhotoView(DetailView):
@@ -23,3 +24,15 @@ class AlbumView(DetailView):
         if obj.user != self.request.user:
             return HttpResponseForbidden()
         return obj
+
+
+class AlbumAdd(DetailView):
+    model = Album
+    template_name = 'album_add.html'
+
+
+class PhotoAdd(forms.ModelForm):
+    name = forms.TextInput()
+    description = forms.TextInput()
+    published = some choice thing
+

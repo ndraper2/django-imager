@@ -1,5 +1,5 @@
 from django.conf.urls import url
-from imager_images.views import PhotoView, AlbumView
+from imager_images.views import PhotoView, AlbumView, AlbumAdd, PhotoAdd
 from django.contrib.auth.decorators import login_required
 from django.views.generic import TemplateView
 
@@ -12,5 +12,9 @@ urlpatterns = [
         name='library'),
     url(r'^album/(?P<pk>\d+)/$',
         login_required(AlbumView.as_view()),
-        name='album_detail')
+        name='album_detail'),
+    url(r'^album/add', login_required(AlbumAdd.as_view()),
+        name='album_add'),
+    url(r'^photos/add', login_required(PhotoAdd.as_view()),
+        name='photo_add')
 ]
