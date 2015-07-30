@@ -5,7 +5,7 @@ from imager_images.models import Photo, Album
 
 class PhotoView(DetailView):
     model = Photo
-    template_name = 'photo_detail.html'
+    template_name = 'photo.html'
 
     def get_object(self, *args, **kwargs):
         obj = super(PhotoView, self).get_object(*args, **kwargs)
@@ -16,7 +16,7 @@ class PhotoView(DetailView):
 
 class AlbumView(DetailView):
     model = Album
-    template_name = 'album_detail.html'
+    template_name = 'album.html'
 
     def get_object(self, *args, **kwargs):
         obj = super(AlbumView, self).get_object(*args, **kwargs)

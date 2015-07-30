@@ -3,6 +3,8 @@
 {% load thumbnail %}
 {% block content %}
 
+{{ STATIC_URL }}
+
 <div class='imager-library'>
 
 <h2>{{ user }}</h2>
@@ -14,7 +16,7 @@
 <h3>{{ album.title }}</h3>
 {% if album.cover %}
     {% thumbnail album.cover.file "180x180" as im %}
-    <a href="/images/album/{{ album.id }}"><img src='{{ MEDIA_ROOT }}{{ im.url }}'/></a>
+    <a href="{% url 'album_detail' album.id %}"><img src='{{ MEDIA_ROOT }}{{ im.url }}'/></a>
     {% endthumbnail %}
 
 {% else %}

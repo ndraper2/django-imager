@@ -10,18 +10,18 @@
 
 <h3>All Photos</h3>
 <div class='all_photos'>
-{% for photo in user.profile.photos.all %}
+{% for photo in album.photos.all %}
 
     <h3 class='photo_title'>{{ photo.title }}</h3>
     {% thumbnail photo.file "180x180" as im %}
-    <img src='{{ MEDIA_ROOT }}{{ im.url }}'/>
+    <a href="{% url 'photo_detail' photo.id %}"><img src='{{ MEDIA_ROOT }}{{ im.url }}'/></a>
     {% endthumbnail %}
 
 {% endfor %}
 {% cycle "" "" "<br/>"%}
 </div>
 
-<p>Go to your <a href="/profile/">Profile</a>.</p>
+<p>Go to your <a href="{% url 'profile' %}">Profile</a>.</p>
 
 </div>
 

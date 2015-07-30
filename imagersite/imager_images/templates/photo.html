@@ -7,13 +7,13 @@
 
 <h2>{{ user.get_full_name }}</h2>
 
-<h3>{{ photo.title }}</h3>
+<h2>{{ photo.title }}</h2>
 
-    {% thumbnail photo.file "180x180" as im %}
+    {% thumbnail photo.file "500x500" as im %}
     <img src='{{ MEDIA_ROOT }}{{ im.url }}'/>
     {% endthumbnail %}
 
-<h4>Description</h4>
+<h3>Description</h3>
 <p>{{ photo.description }}</p>
 <p><strong>Uploaded:</strong> {{ photo.date_uploaded|date:"D d M Y" }}</p>
 <p><strong>Modified:</strong> {{ photo.date_modified|date:"D d M Y" }}</p>
