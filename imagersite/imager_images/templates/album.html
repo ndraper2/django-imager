@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% load thumbnail %}
+{% block content %}
+
+<div class='imager-album'>
+
+<h2>{{ user.get_full_name }}</h2>
+
+
+<h3>All Photos</h3>
+<div class='all_photos'>
+{% for photo in user.profile.photos.all %}
+
+    <h3 class='photo_title'>{{ photo.title }}</h3>
+    {% thumbnail photo.file "180x180" as im %}
+    <img src='{{ MEDIA_ROOT }}{{ im.url }}'/>
+    {% endthumbnail %}
+
+{% endfor %}
+{% cycle "" "" "<br/>"%}
+</div>
+
+<p>Go to your <a href="/profile/">Profile</a>.</p>
+
+</div>
+
+{% endblock %}
