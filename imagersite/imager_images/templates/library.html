@@ -8,16 +8,17 @@
 <h2>{{ user }}</h2>
 
 <h3>All Albums</h3>
-<div class='all_photos'>
+
 {% for album in user.albums.all %}
+<div class='all_photos'>
 <h3>{{ album.title }}</h3>
 {% if album.cover %}
     {% thumbnail album.cover.file "180x180" as im %}
-    <img src='{{ MEDIA_ROOT }}{{ im.url }}'/>
+    <a href="/images/album/{{ album.id }}"><img src='{{ MEDIA_ROOT }}{{ im.url }}'/></a>
     {% endthumbnail %}
 
 {% else %}
-<img src='/static/thumbnail.jpg' height='180' width='180'>
+<a href="{% url 'album_detail' album.id %}"><img src='/static/thumbnail.jpg' height='180' width='180'></a>
 {% endif %}
 {% cycle "" "" "<br/>" %}
 </div>
@@ -30,14 +31,14 @@
 
     <h3 class='photo_title'>{{ photo.title }}</h3>
     {% thumbnail photo.file "180x180" as im %}
-    <img src='{{ MEDIA_ROOT }}{{ im.url }}'/>
+    <a href="{% url 'photo_detail' photo.id %}"><img src='{{ MEDIA_ROOT }}{{ im.url }}'/></a>
     {% endthumbnail %}
 
 {% endfor %}
 {% cycle "" "" "<br/>"%}
 </div>
 
-<p>Go to your <a href="url 'profile'">Profile</a>.</p>
+<p>Go to your <a href="{% url 'profile' %}">Profile</a>.</p>
 
 </div>
 
