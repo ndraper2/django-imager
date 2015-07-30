@@ -1,13 +1,24 @@
 from django.shortcuts import get_object_or_404
-from django.views.generic import TemplateView
+from django.views.generic import DetailView
 from imager_images.models import Photo
+from django.http import HttpResponseForbidden
 
 
-class PhotoView(TemplateView):
-    template_name = 'home.html'
+class PhotoView(DetailView):
+    template_name = 'photo_detail.html'
 
-    def get_context_data(self, **kwargs):
-        context = super(PhotoView, self).get_context_data(**kwargs)
-        photo = get_object_or_404(Photo, pk=kwargs['pk'])
-        context['photo'] = photo
-        return context
+    def get_object(self, *args, **kwargs):
+        obj = super(PhotoView, self).get_object(*args, **kwargs)
+        if obj.user != self.request.user:
+            return HttpResponseForbidden()
+        return obj
+
+
+class AlbumView(DetailView):
+    template_name = 'album_detail.html'
+
+    def get_object(self, *args, **kwargs):
+        obj = super(AlbumView, self).get_object(*args, **kwargs)
+        if obj.user != self.request.user:
+            return HttpResponseForbidden()
+        return obj
