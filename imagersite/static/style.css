@@ -47,20 +47,20 @@ h1, h2, h3, h4, h5 {
 .all_photos h3 {
   position: absolute;
   width: 100%;
-  padding-left: 10px;
-  bottom: 5px;
+  padding-left: 20px;
   font-family: 'Francois One', sans-serif;
   display: inline;
+  top: -45px;
 }
 
 .all_photos img {
     display: inline;
-    margin-right: 20px;
-    margin-bottom: 20px;
+    margin: 10px;
 }
 
 .all_photos {
-  position: relative;
+    position: relative;
+    display: inline;
 }
 
 header a {
