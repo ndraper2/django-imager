@@ -65,8 +65,7 @@ TEMPLATES = [
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
             'templates',
-            'imager_images',
-            'imager_profile',
+            # use absolute path names.  use os.dir
             ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -80,7 +79,8 @@ TEMPLATES = [
     },
 ]
 
-TEMPLATE_DEBUG = True
+TEMPLATE_DEBUG = DEBUG
+THUMBNAIL_DEBUG = DEBUG
 
 WSGI_APPLICATION = 'imagersite.wsgi.application'
 
@@ -128,10 +128,3 @@ INCLUDE_AUTH_URLS = False
 SITE_ID = 1
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-
-CACHES = {
-    'default': {
-        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
-        'LOCATION': '127.0.0.1:11211',
-    }
-}

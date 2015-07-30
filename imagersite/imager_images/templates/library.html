@@ -5,38 +5,34 @@
 
 <div class='imager-library'>
 
-You should save space by displaying small images (thumbnails) in a grid format.
+<h2>{{ user.get_full_name }}</h2>
 
-To best accomplish this task, you'll install another Django add-on application,
-sorl-thumbnail (Links to an external site.). The add-on will allow you to easily
-designate dimensions for thumbnails and will handle creating appropriately sized
-copies of uploaded images for you.  You may use the database cache store when
-configuration this application.
-
-<h2>{{ user.first_name }} {{ user.last_name }}</h2>
-
+<h3>All Albums</h3>
+<div class='all_photos'>
 {% for album in user.profile.albums.all %}
-<h3>{{album.title}}</h3>
-<p>{{album.description}}</p>
+<h3>{{ album.title }}</h3>
 {% if album.cover %}
-
-{% thumbnail album.cover "200x100" as im %}
-
-{{im}}
-<img src='{{im.url}}'/>
-{% endthumbnail %}
+    {% thumbnail album.cover.file "180x180" as im %}
+    <img src='{{ MEDIA_ROOT }}{{ im.url }}'/>
+    {% endthumbnail %}
+<p>{{ album.description }}</p>
 {% else %}
-<img src='/static/thumbnail.jpg'>
+<img src='/static/thumbnail.jpg' height='180' width='180'>
 {% endif %}
 {% endfor %}
+</div>
 
+<h3>All Photos</h3>
+<div class='all_photos'>
 {% for photo in user.profile.photos.all %}
-<h3>{{photo.title}}</h3>
-{% thumbnail photo "200x100" as im %}
-<img src='/media/{{im.file}}'/>
-{% endthumbnail %}
-{% endfor %}
 
+    <h3 class='photo_title'>{{ photo.title }}</h3>
+    {% thumbnail photo.file "180x180" as im %}
+    <img src='{{ MEDIA_ROOT }}{{ im.url }}'/>
+    {% endthumbnail %}
+
+{% endfor %}
+</div>
 
 Go to your <a href="url 'profile'">Profile</a>.
 
