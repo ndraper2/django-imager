@@ -27,12 +27,12 @@ h1, h2, h3, h4, h5 {
     font-family: 'Francois One', sans-serif;
 }
 
-#main-page {
+.main-page {
     margin-left: 15%;
     margin-right: 15%;
 }
 
-#main-page img {
+.main-page img {
     display: block;
     margin-left: auto;
     margin-right: auto;
@@ -44,12 +44,31 @@ h1, h2, h3, h4, h5 {
             box-shadow: 0.5em 0.5em 0.5em #777;
 }
 
+.all_photos h3 {
+  position: absolute;
+  width: 100%;
+  padding-left: 10px;
+  bottom: 5px;
+  font-family: 'Francois One', sans-serif;
+  display: inline;
+}
+
+.all_photos img {
+    display: inline;
+    margin-right: 20px;
+    margin-bottom: 20px;
+}
+
+.all_photos {
+  position: relative;
+}
+
 header a {
     text-decoration: none;
     color: white;
 }
 
-#main-page a {
+.main-page a {
     text-decoration: none;
     color: #003f87;
 }
@@ -87,7 +106,7 @@ a:hover {
     padding-bottom: 0.7em;
 }
 
-#main-page table {
+.main-page table {
     margin-bottom: 10px;
 }
 

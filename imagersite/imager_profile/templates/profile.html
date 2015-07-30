@@ -4,8 +4,8 @@
 
 <div class='imager-profile'>
 <p id='join_date'>Joined on {{ user.date_joined|date:"D d M Y" }}</p>
-<h2>{{ user.first_name }} {{ user.last_name }}</h2>
-<p><a href="{{ user.profile.website }}"> {{user.profile.website }}</a></p>
+<h2>{{ user.get_full_name }}</h2>
+<p><a href="{{ user.profile.website }}"> {{ user.profile.website }}</a></p>
 
 
 <p id='usage'>
