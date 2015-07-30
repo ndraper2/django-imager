@@ -40,46 +40,38 @@ class PhotoTestCase(TestCase):
         user = UserFactory.create(username='user1')
         user.save()
         for i in range(100):
-            photo = PhotoFactory.create(user=user.profile)
+            photo = PhotoFactory.create(user=user)
             photo.save()
-
-    def tearDown(self):
-        User.objects.all().delete()
-        Photo.objects.all().delete()
 
     def test_photos_are_created(self):
         self.assertTrue(Photo.objects.count() == 100)
 
     def test_photos_belong_to_user(self):
-        user = ImagerProfile.objects.get(user__username='user1')
+        user = User.objects.get(username='user1')
         self.assertEqual(100, len(user.photos.all()))
 
     def test_photos_do_not_belong_to_other_user(self):
         new_user = UserFactory.create(username='user2')
         new_user.save()
-        self.assertEqual(len(new_user.profile.photos.all()), 0)
+        self.assertEqual(len(new_user.photos.all()), 0)
 
 
 class AlbumTestCase(TestCase):
     def setUp(self):
         user = UserFactory.create()
         user.save()
-        cover = PhotoFactory.create(user=user.profile)
+        cover = PhotoFactory.create(user=user)
         cover.save()
         for i in range(5):
-            album = AlbumFactory.create(cover=cover, user=user.profile)
+            album = AlbumFactory.create(cover=cover, user=user)
             album.save()
-
-    def tearDown(self):
-        Album.objects.all().delete()
-        User.objects.all().delete()
 
     def test_albums_are_created(self):
         self.assertTrue(Album.objects.count() == 5)
 
     def test_add_photos_to_albums(self):
         album = Album.objects.all()[0]
-        user = ImagerProfile.objects.all()[0]
+        user = User.objects.all()[0]
         for i in range(5):
             photo = PhotoFactory.create(user=user)
             photo.save()

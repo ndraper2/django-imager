@@ -41,9 +41,6 @@ class ProfileTestCase(TestCase):
     def setUp(self):
         pass
 
-    def tearDown(self):
-        User.objects.all().delete()
-
     def test_profile_is_created_when_user_is_saved(self):
         self.assertEqual(len(ImagerProfile.objects.all()), 0)
         user = UserFactory.create()
@@ -60,7 +57,8 @@ class ProfileTestCase(TestCase):
         user = UserFactory.create(username='user1')
         user.save()
         profile = ImagerProfile.objects.get(user__username='user1')
-        self.assertEqual(str(profile), profile.user.username)
+        self.assertEqual(str(profile),
+                         user.get_full_name() or profile.user.username)
 
     def test_attributes_save(self):
         user = UserFactory.create(username='user0')
@@ -91,16 +89,13 @@ class ProfileViewTestCase(TestCase):
         user.profile.address = '123 Bob Drive'
         user.profile.website = 'www.bob.com'
         user.profile.photography_type = 'portraits'
-        PhotoFactory(title='Bobs Photo', user=user.profile)
-        AlbumFactory(title='Bobs Album', user=user.profile)
+        PhotoFactory(title='Bobs Photo', user=user)
+        AlbumFactory(title='Bobs Album', user=user)
         user.profile.save()
 
         user2 = UserFactory(username='usereve', email='eve@example.com')
         user2.set_password('secret')
         user2.save()
-
-    def tearDown(self):
-        User.objects.all().delete()
 
     def test_view_profile(self):
         c = Client()

@@ -4,13 +4,13 @@
 
 <div class='imager-profile'>
 <p id='join_date'>Joined on {{ user.date_joined|date:"D d M Y" }}</p>
-<h2>{{ user.get_full_name }}</h2>
+<h2>{{ user }}</h2>
 <p><a href="{{ user.profile.website }}"> {{ user.profile.website }}</a></p>
 
 
 <p id='usage'>
-You have <strong>{{ user.profile.albums.all|length }}</strong> albums<br/>
-you have a total of <strong>{{ user.profile.photos.all|length }}</strong> photos.
+You have <strong>{{ user.albums.all|length }}</strong> albums<br/>
+You have a total of <strong>{{ user.photos.all|length }}</strong> photos.
 </p>
 
 <p id='photo_specs'>

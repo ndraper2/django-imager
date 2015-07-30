@@ -1,6 +1,6 @@
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
-from imager_profile.models import ImagerProfile
+from django.contrib.auth.models import User
 
 PUBLIC = 'Public'
 SHARED = 'Shared'
@@ -26,7 +26,7 @@ class Photo(models.Model):
     published = models.CharField(max_length=8, choices=CHOICES,
                                  default=PRIVATE)
 
-    user = models.ForeignKey(ImagerProfile, related_name='photos', null=False)
+    user = models.ForeignKey(User, related_name='photos', null=False)
 
     def __str__(self):
         return self.title
@@ -34,7 +34,7 @@ class Photo(models.Model):
 
 @python_2_unicode_compatible
 class Album(models.Model):
-    user = models.ForeignKey(ImagerProfile, related_name='albums', null=False)
+    user = models.ForeignKey(User, related_name='albums', null=False)
     photos = models.ManyToManyField(Photo,
                                     related_name='albums',
                                     blank=True)

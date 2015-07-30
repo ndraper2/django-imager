@@ -5,11 +5,11 @@
 
 <div class='imager-library'>
 
-<h2>{{ user.get_full_name }}</h2>
+<h2>{{ user }}</h2>
 
 <h3>All Albums</h3>
 <div class='all_photos'>
-{% for album in user.profile.albums.all %}
+{% for album in user.albums.all %}
 <h3>{{ album.title }}</h3>
 {% if album.cover %}
     {% thumbnail album.cover.file "180x180" as im %}
@@ -24,7 +24,7 @@
 
 <h3>All Photos</h3>
 <div class='all_photos'>
-{% for photo in user.profile.photos.all %}
+{% for photo in user.photos.all %}
 
     <h3 class='photo_title'>{{ photo.title }}</h3>
     {% thumbnail photo.file "180x180" as im %}

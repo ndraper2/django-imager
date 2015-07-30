@@ -22,9 +22,6 @@ class LoginOutTestCase(TestCase):
         user.set_password('secret')
         user.save()
 
-    def tearDown(self):
-        User.objects.all().delete()
-
     def test_login(self):
         c = Client()
         response = c.get('/')
@@ -58,9 +55,6 @@ class RegisterTestCase(TestCase):
         user.set_password('secret')
         user.save()
 
-    def tearDown(self):
-        User.objects.all().delete()
-
     def test_register(self):
         c = Client()
         response = c.post(
@@ -91,4 +85,5 @@ class RegisterTestCase(TestCase):
                 'password2': 'secret',
             },
             follow=True)
-        self.assertIn('<input id="id_password1"', response.content)
+        self.assertIn('A user with that username already exists',
+                      response.content)
