@@ -1,10 +1,10 @@
-from django.shortcuts import get_object_or_404
 from django.views.generic import DetailView
-from imager_images.models import Photo
 from django.http import HttpResponseForbidden
+from imager_images.models import Photo, Album
 
 
 class PhotoView(DetailView):
+    model = Photo
     template_name = 'photo_detail.html'
 
     def get_object(self, *args, **kwargs):
@@ -15,6 +15,7 @@ class PhotoView(DetailView):
 
 
 class AlbumView(DetailView):
+    model = Album
     template_name = 'album_detail.html'
 
     def get_object(self, *args, **kwargs):
