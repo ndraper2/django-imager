@@ -1,7 +1,7 @@
-from django.views.generic import DetailView
+from django.views.generic import DetailView, FormView
 from django.http import HttpResponseForbidden
 from imager_images.models import Photo, Album
-from django import forms
+from .forms import AlbumForm, PhotoForm
 
 
 class PhotoView(DetailView):
@@ -26,13 +26,24 @@ class AlbumView(DetailView):
         return obj
 
 
-class AlbumAdd(DetailView):
-    model = Album
+class AlbumAdd(FormView):
     template_name = 'album_add.html'
+    form_class = AlbumForm
+    success_url = '/profile/'
+
+    def get_form_kwargs(self):
+        kwargs = super(AlbumAdd, self).get_form_kwargs()
+        kwargs['request'] = self.request
+        return kwargs
+
+    def form_valid(self, form):
+        pass
 
 
-class PhotoAdd(forms.ModelForm):
-    name = forms.TextInput()
-    description = forms.TextInput()
-    published = some choice thing
+class PhotoAdd(FormView):
+    template_name = 'photo_add.html'
+    form_class = PhotoForm
+    success_url = 'images/photos/add/'
 
+    def form_valid(self, form):
+        pass
