@@ -2,6 +2,7 @@
 {% load i18n %}
 
 {% block content %}
+<nav id='album_add'>
 {% if user.is_authenticated %}
   <form action="{% url 'album_add' %}" method="post" enctype="multipart/form-data" accept-charset="utf-8">
   {% csrf_token %}
@@ -11,4 +12,5 @@
 {% else %}
   <h1>Please Login.</h1>
 {% endif %}
+</nav>
 {% endblock %}

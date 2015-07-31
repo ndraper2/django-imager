@@ -21,6 +21,7 @@ footer {
     box-shadow: .5px 0px 0px 0px;
     margin-top: 1em;
     text-align: center;
+    clear: both;
 }
 
 h1, h2, h3, h4, h5 {
@@ -131,4 +132,24 @@ a:hover {
 #address {
     clear: both;
     padding-top: 2em;
+}
+
+#album_add form p input,
+#album_add form p textarea,
+#album_add form p select,
+#album_add form p label,
+#album_add input {
+    float: left;
+    clear: both;
+    margin: 5px 0px;
+}
+
+#photo_add form p input,
+#photo_add form p textarea,
+#photo_add form p select,
+#photo_add form p label,
+#photo_add input {
+    float: left;
+    clear: both;
+    margin: 5px 0px;
 }

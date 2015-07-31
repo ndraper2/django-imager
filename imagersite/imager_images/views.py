@@ -36,9 +36,6 @@ class AlbumAdd(FormView):
         kwargs['request'] = self.request
         return kwargs
 
-    def form_valid(self, form):
-        pass
-
 
 class PhotoAdd(FormView):
     template_name = 'photo_add.html'

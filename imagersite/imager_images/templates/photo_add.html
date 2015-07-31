@@ -3,12 +3,15 @@
 {% load i18n %}
 
 {% block content %}
+<nav id='photo_add'>
 {% if user.is_authenticated %}
   <form action="" method="post" accept-charset="utf-8" enctype="multipart/form-data">
   {% csrf_token %}
     {{ form.as_p }}
+    <input type="submit" name="add" value="Add">
   </form>
 {% else %}
   <h1>Please Login.</h1>
 {% endif %}
+</nav>
 {% endblock %}
