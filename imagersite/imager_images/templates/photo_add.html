@@ -1,6 +1,14 @@
 {% extends 'base.html' %}
-{% load staticfiles %}
-{% load thumbnail %}
+
+{% load i18n %}
+
 {% block content %}
-<p>Hello World</p>
+{% if user.is_authenticated %}
+  <form action="" method="post" accept-charset="utf-8" enctype="multipart/form-data">
+  {% csrf_token %}
+    {{ form.as_p }}
+  </form>
+{% else %}
+  <h1>Please Login.</h1>
+{% endif %}
 {% endblock %}

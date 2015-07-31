@@ -1,6 +1,14 @@
 {% extends 'base.html' %}
-{% load staticfiles %}
-{% load thumbnail %}
+{% load i18n %}
+
 {% block content %}
-<p>Hello World</p>
+{% if user.is_authenticated %}
+  <form action="{% url 'album_add' %}" method="post" enctype="multipart/form-data" accept-charset="utf-8">
+  {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" name="add" value="Add">
+  </form>
+{% else %}
+  <h1>Please Login.</h1>
+{% endif %}
 {% endblock %}
