@@ -90,11 +90,67 @@ class AlbumViewTestCase(TestCase):
         cover.save()
         album = AlbumFactory.create(cover=cover, user=user)
         album.save()
+        album.photos.add(cover)
 
     def test_album_detail_view(self):
         album = Album.objects.all()[0]
+        photo = Photo.objects.all()[0]
         c = Client()
         c.login(username='userbob', password='secret')
         response = c.get('/images/album/{}/'.format(album.id))
         self.assertIn(album.title, response.content)
         self.assertIn(album.description, response.content)
+        self.assertIn(photo.title, response.content)
+
+    def test_album_not_owner(self):
+        user = UserFactory.create(username='usereve')
+        user.set_password('secret')
+        user.save()
+        album = Album.objects.all()[0]
+        c = Client()
+        c.login(username='usereve', password='secret')
+        response = c.get('/images/album/{}/'.format(album.id))
+        assert response.status_code == 403
+
+    def test_album_unauthenticated(self):
+        album = Album.objects.all()[0]
+        c = Client()
+        response = c.get('/images/album/{}/'.format(album.id), follow=True)
+        self.assertEqual(len(response.redirect_chain), 1)
+        self.assertIn('form method="post" action="/login/"',
+                      response.content)
+
+
+class PhotoViewTestCase(TestCase):
+    def setUp(self):
+        user = UserFactory.create(username='userbob')
+        user.set_password('secret')
+        user.save()
+        photo = PhotoFactory.create(user=user)
+        photo.save()
+
+    def test_photo_detail_view(self):
+        photo = Photo.objects.all()[0]
+        c = Client()
+        c.login(username='userbob', password='secret')
+        response = c.get('/images/photos/{}/'.format(photo.id))
+        self.assertIn(photo.title, response.content)
+        self.assertIn(photo.description, response.content)
+
+    def test_photo_not_owner(self):
+        user = UserFactory.create(username='usereve')
+        user.set_password('secret')
+        user.save()
+        photo = Photo.objects.all()[0]
+        c = Client()
+        c.login(username='usereve', password='secret')
+        response = c.get('/images/photos/{}/'.format(photo.id))
+        assert response.status_code == 403
+
+    def test_photo_unauthenticated(self):
+        photo = Photo.objects.all()[0]
+        c = Client()
+        response = c.get('/images/photos/{}/'.format(photo.id), follow=True)
+        self.assertEqual(len(response.redirect_chain), 1)
+        self.assertIn('form method="post" action="/login/"',
+                      response.content)
