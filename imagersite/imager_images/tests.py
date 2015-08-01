@@ -5,7 +5,7 @@ from factory.django import DjangoModelFactory
 from django.contrib.auth.models import User
 from faker import Faker as fake_factory
 from models import Photo, Album
-from imager_profile.models import ImagerProfile
+from django.test import Client
 
 fake = fake_factory()
 
@@ -79,3 +79,22 @@ class AlbumTestCase(TestCase):
         album.photos.add(*photos)
         self.assertTrue(len(album.photos.all()) == 6)
         self.assertTrue(album.user == user)
+
+
+class AlbumViewTestCase(TestCase):
+    def setUp(self):
+        user = UserFactory.create(username='userbob')
+        user.set_password('secret')
+        user.save()
+        cover = PhotoFactory.create(user=user)
+        cover.save()
+        album = AlbumFactory.create(cover=cover, user=user)
+        album.save()
+
+    def test_album_detail_view(self):
+        album = Album.objects.all()[0]
+        c = Client()
+        c.login(username='userbob', password='secret')
+        response = c.get('/images/album/{}/'.format(album.id))
+        self.assertIn(album.title, response.content)
+        self.assertIn(album.description, response.content)

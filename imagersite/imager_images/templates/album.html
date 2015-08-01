@@ -7,6 +7,8 @@
 
 <h2>{{ user.get_full_name }}</h2>
 
+<h2>{{ album.title }}
+
 
 <h3>All Photos</h3>
 <div class='all_photos'>
@@ -20,6 +22,14 @@
 {% endfor %}
 {% cycle "" "" "<br/>"%}
 </div>
+
+<h3>Description</h3>
+<p>{{ album.description }}</p>
+<p><strong>Uploaded:</strong> {{ album.date_uploaded|date:"D d M Y" }}</p>
+<p><strong>Modified:</strong> {{ album.date_modified|date:"D d M Y" }}</p>
+<p><strong>Published:</strong> {{ album.date_published|date:"D d M Y" }}</p>
+<p>This album is: {{ album.published }}</p>
+
 
 <p>Go to your <a href="{% url 'profile' %}">Profile</a>.</p>
 

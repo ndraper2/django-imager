@@ -45,7 +45,7 @@ class LoginOutTestCase(TestCase):
         response = c.post('/login/',
                           {'username': 'notthere', 'password': 'secret'})
         # return to login page
-        self.assertIn('form method="post" action="/login/"',
+        self.assertIn('Login failed.  Please try again.',
                       response.content)
 
 

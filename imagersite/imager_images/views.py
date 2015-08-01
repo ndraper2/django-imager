@@ -1,5 +1,5 @@
 from django.views.generic import DetailView, FormView
-from django.http import HttpResponseForbidden
+from django.core.exceptions import PermissionDenied
 from imager_images.models import Photo, Album
 from .forms import AlbumForm, PhotoForm
 
@@ -11,7 +11,7 @@ class PhotoView(DetailView):
     def get_object(self, *args, **kwargs):
         obj = super(PhotoView, self).get_object(*args, **kwargs)
         if obj.user != self.request.user:
-            return HttpResponseForbidden()
+            raise PermissionDenied
         return obj
 
 
@@ -22,7 +22,7 @@ class AlbumView(DetailView):
     def get_object(self, *args, **kwargs):
         obj = super(AlbumView, self).get_object(*args, **kwargs)
         if obj.user != self.request.user:
-            return HttpResponseForbidden()
+            raise PermissionDenied
         return obj
 
 
@@ -35,6 +35,9 @@ class AlbumAdd(FormView):
         kwargs = super(AlbumAdd, self).get_form_kwargs()
         kwargs['request'] = self.request
         return kwargs
+
+    def form_valid(self, form):
+        pass
 
 
 class PhotoAdd(FormView):
