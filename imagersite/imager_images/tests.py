@@ -154,3 +154,40 @@ class PhotoViewTestCase(TestCase):
         self.assertEqual(len(response.redirect_chain), 1)
         self.assertIn('form method="post" action="/login/"',
                       response.content)
+
+
+class LibraryViewTestCase(TestCase):
+    def setUp(self):
+        user = UserFactory.create(username='userbob')
+        user.set_password('secret')
+        user.save()
+        cover = PhotoFactory.create(user=user)
+        cover.save()
+        album = AlbumFactory.create(cover=cover, user=user)
+        album.save()
+        album.photos.add(cover)
+
+    def test_library_view(self):
+        photo = Photo.objects.all()[0]
+        album = Album.objects.all()[0]
+        c = Client()
+        c.login(username='userbob', password='secret')
+        response = c.get('/images/library/')
+        self.assertIn(photo.title, response.content)
+        self.assertIn(album.title, response.content)
+
+    def test_library_view_different_user(self):
+        photo = Photo.objects.all()[0]
+        album = Album.objects.all()[0]
+        c = Client()
+        c.login(username='usereve', password='secret')
+        response = c.get('/images/library/')
+        self.assertNotIn(photo.title, response.content)
+        self.assertNotIn(album.title, response.content)
+
+    def test_library_unauthenticated(self):
+        c = Client()
+        response = c.get('/images/library/', follow=True)
+        self.assertEqual(len(response.redirect_chain), 1)
+        self.assertIn('form method="post" action="/login/"',
+                      response.content)
