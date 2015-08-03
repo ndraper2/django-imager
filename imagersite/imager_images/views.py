@@ -1,5 +1,5 @@
 from django.views.generic import DetailView
-from django.views.generic.edit import CreateView, UpdateView
+from django.views.generic.edit import FormView
 from django.core.exceptions import PermissionDenied
 from imager_images.models import Photo, Album
 from .forms import AlbumForm, PhotoForm
@@ -27,38 +27,44 @@ class AlbumView(DetailView):
         return obj
 
 
-class AlbumAdd(CreateView):
+class AlbumFormView(FormView):
     template_name = 'album_add.html'
     form_class = AlbumForm
     success_url = '/images/library/'
 
+    def get_form(self, form_class=PhotoForm):
+        try:
+            album = Album.objects.get(user=self.request.user,
+                                      pk=self.kwargs['pk'])
+            return AlbumForm(instance=album, **self.get_form_kwargs())
+        except (KeyError, Album.DoesNotExist):
+            return AlbumForm(**self.get_form_kwargs())
+
     def get_form_kwargs(self):
-        kwargs = super(AlbumAdd, self).get_form_kwargs()
+        kwargs = super(AlbumFormView, self).get_form_kwargs()
         kwargs['request'] = self.request
         return kwargs
 
     def form_valid(self, form):
         form.instance.user = self.request.user
-        return super(AlbumAdd, self).form_valid(form)
+        form.save()
+        return super(AlbumFormView, self).form_valid(form)
 
 
-class PhotoAdd(CreateView):
+class PhotoFormView(FormView):
     template_name = 'photo_add.html'
     form_class = PhotoForm
     success_url = '/images/library/'
 
-    # def form_view(request, ob_id):
-    #     obj = Album.objects.get(pk=ob_id)
-    #     if request.method == 'POST':
-    #         data = request.POST
-    #         form = AlbumForm(data, request.Files, instance=obj)
-    #         if form.is_valid():
-    #             form.save()
-    #     else:
-    #         form = AlbumForm(instance=obj)
-
-    #     return
+    def get_form(self, form_class=PhotoForm):
+        try:
+            photo = Photo.objects.get(user=self.request.user,
+                                      pk=self.kwargs['pk'])
+            return PhotoForm(instance=photo, **self.get_form_kwargs())
+        except (KeyError, Photo.DoesNotExist):
+            return PhotoForm(**self.get_form_kwargs())
 
     def form_valid(self, form):
         form.instance.user = self.request.user
-        return super(PhotoAdd, self).form_valid(form)
+        form.save()
+        return super(PhotoFormView, self).form_valid(form)

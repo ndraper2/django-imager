@@ -19,6 +19,7 @@
 <p><strong>Modified:</strong> {{ photo.date_modified|date:"D d M Y" }}</p>
 <p><strong>Published:</strong> {{ photo.date_published|date:"D d M Y" }}</p>
 <p>This photo is: {{ photo.published }}</p>
+<p><a href="{% url 'photo_edit' photo.id %}">Edit</a> this photo.</p>
 
 <p>Go to your <a href="{% url 'profile' %}">Profile</a>.</p>
 

@@ -29,6 +29,7 @@
 <p><strong>Modified:</strong> {{ album.date_modified|date:"D d M Y" }}</p>
 <p><strong>Published:</strong> {{ album.date_published|date:"D d M Y" }}</p>
 <p>This album is: {{ album.published }}</p>
+<p><a href="{% url 'album_edit' album.id %}">Edit</a> this album.</p>
 
 
 <p>Go to your <a href="{% url 'profile' %}">Profile</a>.</p>

@@ -13,6 +13,7 @@ class AlbumForm(forms.ModelForm):
         super(AlbumForm, self).__init__(*args, **kwargs)
         self.fields['photos'].queryset = Photo.objects.filter(
             user=self.request.user)
+        self.fields['cover'].queryset = self.instance.photos
 
     # def form_view(request, ob_id):
     #     obj = Album.objects.get(pk=ob_id)
