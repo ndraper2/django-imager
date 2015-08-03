@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% load i18n %}
+
+{% block content %}
+<div id='profile_update_wrapper'>
+    <nav id='profile_update'>
+    {% if user.is_authenticated %}
+      <form action="" method="post" accept-charset="utf-8">
+      {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" name="add" value="Update">
+      </form>
+    {% else %}
+      <h1>Please Login.</h1>
+    {% endif %}
+    </nav>
+</div>
+{% endblock %}

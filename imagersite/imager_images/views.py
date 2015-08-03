@@ -1,3 +1,4 @@
+from __future__ import unicode_literals
 from django.views.generic import DetailView
 from django.views.generic.edit import FormView
 from django.core.exceptions import PermissionDenied

@@ -103,6 +103,19 @@ a:hover {
     float: right;
 }
 
+#profile_update input,
+#profile_update textarea {
+    float: right;
+}
+
+#profile_update p {
+    clear: both;
+}
+
+#profile_update_wrapper {
+    max-width: 600px;
+}
+
 .required {
     padding-bottom: 0.7em;
 }
