@@ -12,7 +12,6 @@ class AlbumForm(forms.ModelForm):
         super(AlbumForm, self).__init__(*args, **kwargs)
         self.fields['photos'].queryset = Photo.objects.filter(
             user=self.request.user)
-        self.fields['cover'].queryset = self.instance.photos
 
 
 class PhotoForm(forms.ModelForm):

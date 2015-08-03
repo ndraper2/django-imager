@@ -33,7 +33,7 @@ class AlbumFormView(FormView):
     form_class = AlbumForm
     success_url = '/images/library/'
 
-    def get_form(self, form_class=PhotoForm):
+    def get_form(self, form_class=AlbumForm):
         try:
             album = Album.objects.get(user=self.request.user,
                                       pk=self.kwargs['pk'])
