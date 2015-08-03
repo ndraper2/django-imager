@@ -1,4 +1,5 @@
-from django.views.generic import DetailView, FormView
+from django.views.generic import DetailView
+from django.views.generic.edit import CreateView, UpdateView
 from django.core.exceptions import PermissionDenied
 from imager_images.models import Photo, Album
 from .forms import AlbumForm, PhotoForm
@@ -26,10 +27,10 @@ class AlbumView(DetailView):
         return obj
 
 
-class AlbumAdd(FormView):
+class AlbumAdd(CreateView):
     template_name = 'album_add.html'
     form_class = AlbumForm
-    success_url = '/profile/'
+    success_url = '/images/library/'
 
     def get_form_kwargs(self):
         kwargs = super(AlbumAdd, self).get_form_kwargs()
@@ -37,13 +38,27 @@ class AlbumAdd(FormView):
         return kwargs
 
     def form_valid(self, form):
-        pass
+        form.instance.user = self.request.user
+        return super(AlbumAdd, self).form_valid(form)
 
 
-class PhotoAdd(FormView):
+class PhotoAdd(CreateView):
     template_name = 'photo_add.html'
     form_class = PhotoForm
-    success_url = 'images/photos/add/'
+    success_url = '/images/library/'
+
+    # def form_view(request, ob_id):
+    #     obj = Album.objects.get(pk=ob_id)
+    #     if request.method == 'POST':
+    #         data = request.POST
+    #         form = AlbumForm(data, request.Files, instance=obj)
+    #         if form.is_valid():
+    #             form.save()
+    #     else:
+    #         form = AlbumForm(instance=obj)
+
+    #     return
 
     def form_valid(self, form):
-        pass
+        form.instance.user = self.request.user
+        return super(PhotoAdd, self).form_valid(form)
