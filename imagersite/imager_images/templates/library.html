@@ -35,9 +35,9 @@
     {% thumbnail photo.file "180x180" as im %}
     <a href="{% url 'photo_detail' photo.id %}"><img src='{{ MEDIA_ROOT }}{{ im.url }}'/></a>
     {% endthumbnail %}
-
-{% endfor %}
 {% cycle "" "" "<br/>"%}
+{% endfor %}
+
 </div>
 
 <p>Go to your <a href="{% url 'profile' %}">Profile</a>.</p>
