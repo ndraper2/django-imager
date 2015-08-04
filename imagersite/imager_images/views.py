@@ -1,15 +1,10 @@
 from __future__ import unicode_literals
 from django.views.generic import DetailView
-<<<<<<< HEAD
 from django.views.generic.edit import CreateView, UpdateView
 from imager_images.models import Photo, Album
 from django.db.models import Q
 from django.http import Http404
-=======
-from django.views.generic.edit import FormView
-from django.core.exceptions import PermissionDenied
 from imager_images.models import Photo, Album, Face
-from .forms import AlbumForm, PhotoForm
 import os
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -40,7 +35,6 @@ def get_faces(photo):
         faces.append(face)
 
     return faces
->>>>>>> 6d099ee1f75848099b8716c631b690e837db6a3c
 
 
 class PhotoView(DetailView):
@@ -48,11 +42,10 @@ class PhotoView(DetailView):
     template_name = 'photo.html'
     detect = False
 
-<<<<<<< HEAD
     def get_queryset(self, *args, **kwargs):
         return super(PhotoView, self).get_queryset(*args, **kwargs).filter(
             Q(user=self.request.user) | Q(published='Public'))
-=======
+
     def get_context_data(self, **kwargs):
         context = super(DetailView, self).get_context_data(**kwargs)
         if self.detect and len(self.object.faces.all()) == 0:
@@ -60,7 +53,6 @@ class PhotoView(DetailView):
 
         context['faces'] = self.object.faces.all()
         return context
->>>>>>> 6d099ee1f75848099b8716c631b690e837db6a3c
 
 
 class AlbumView(DetailView):
