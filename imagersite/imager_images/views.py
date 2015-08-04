@@ -2,19 +2,52 @@ from __future__ import unicode_literals
 from django.views.generic import DetailView
 from django.views.generic.edit import FormView
 from django.core.exceptions import PermissionDenied
-from imager_images.models import Photo, Album
+from imager_images.models import Photo, Album, Face
 from .forms import AlbumForm, PhotoForm
+import os
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+
+def get_faces(photo):
+    import Algorithmia
+    import base64
+    Algorithmia.apiKey = "Simple simritlrldm5w9OsZJ/L9QMifSG1"
+    file_path = 'media/' + str(photo.file)
+    file_path = os.path.join(BASE_DIR, file_path)
+
+    with open(file_path, 'rb') as img:
+        b64 = base64.b64encode(img.read())
+
+    result = Algorithmia.algo("/ANaimi/FaceDetection").pipe(b64)
+
+    faces = []
+    for rect in result:
+        face = Face()
+        face.photo = photo
+        face.name = '?'
+        face.x = rect['x']
+        face.y = rect['y']
+        face.width = rect['width']
+        face.height = rect['height']
+        face.save()
+        faces.append(face)
+
+    return faces
 
 
 class PhotoView(DetailView):
     model = Photo
     template_name = 'photo.html'
+    detect = False
 
-    def get_object(self, *args, **kwargs):
-        obj = super(PhotoView, self).get_object(*args, **kwargs)
-        if obj.user != self.request.user:
-            raise PermissionDenied
-        return obj
+    def get_context_data(self, **kwargs):
+        context = super(DetailView, self).get_context_data(**kwargs)
+        if self.detect and len(self.object.faces.all()) == 0:
+            get_faces(self.object)
+
+        context['faces'] = self.object.faces.all()
+        return context
 
 
 class AlbumView(DetailView):
