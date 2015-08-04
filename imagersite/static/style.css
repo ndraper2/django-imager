@@ -45,6 +45,19 @@ h1, h2, h3, h4, h5 {
             box-shadow: 0.5em 0.5em 0.5em #777;
 }
 
+.one_photo img {
+    display: block;
+    margin-left: 0px;
+    margin-right: 0px;
+    padding: 00px;
+    padding-bottom: 0em;
+    margin-bottom: 20px;
+    border: 1px solid #000;
+    -webkit-box-shadow: 0.5em 0.5em 0.5em #777;
+        -moz-box-shadow: 0.5em 0.5em 0.5em #777;
+            box-shadow: 0.5em 0.5em 0.5em #777;
+}
+
 .all_photos h3 {
   position: absolute;
   width: 100%;
