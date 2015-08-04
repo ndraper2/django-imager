@@ -22,5 +22,7 @@ urlpatterns = [
         {'success_url': 'album_detail'}, name='album_edit'),
     url(r'^photos/edit/(?P<pk>\d+)/$',
         login_required(PhotoEditView.as_view()),
-        {'success_url': 'photo_detail'}, name='photo_edit')
+        {'success_url': 'photo_detail'}, name='photo_edit'),
+    url(r'^photos/(?P<pk>\d+)/detect$', PhotoView.as_view(detect=True),
+        name='detect_faces')
 ]
