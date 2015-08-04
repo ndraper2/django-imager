@@ -1,27 +1,24 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
-{% load thumbnail %}
+
 {% block content %}
 
-<script type="text/javascript" src="//code.jquery.com/jquery-2.1.4.min.js"></script>
-<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
-<script type="text/javascript" src="//algorithmia.com/v1/clients/js/algorithmia-0.2.0.js"></script>
-<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/sweetalert/1.0.1/sweetalert-dev.js"></script>
-
-<div class='imager-library'>
+<div class='one_photo'>
 
 <h2>{{ user.get_full_name }}</h2>
 
 <h2>{{ photo.title }}</h2>
-<div id='photo_display' style='position: relative; clear: both;'>
+<div style="position:relative;">
 
-    {% thumbnail photo.file "500x500" as im %}
-    <img src='{{ MEDIA_ROOT }}{{ im.url }}'/>
-    {% endthumbnail %}
 
+    <img src='/media/{{ photo.file }}'/>
+
+{% for face in photo.faces.all %}
+<div style="width: {{face.width}}px;height:{{face.height}}px;border:2px solid yellow;position:absolute;top: {{face.y}}px; left: {{face.x}}px;"></div>
+{% endfor %}
 </div>
         {% if not faces %}
-          <a href="{% url 'detect_faces' object.id %}"><button type="">Detect Faces</button></a>
+          <a href="{% url 'detect_faces' object.id %}"><button class='facelabel'>Detect Faces</button></a>
         {% endif %}
 <h3>Description</h3>
 <p>{{ photo.description }}</p>
@@ -35,27 +32,5 @@
 
 </div>
 
-  <script type="text/javascript">
-    FaceTagger.init({
-      container: '#photo-container',
-      labelUrl: '{% url "photo_detail" object.id %}',
-      csrf: '{{ csrf_token }}',
-      originalWidth: {{ object.image.width }},
-      originalHeight: {{ object.image.height }},
-    newWidth: $("#photo-container img").width(),
-    newHeight: $("#photo-container img").height()
-    });
-    {% for f in faces %}
-      var face = {
-        id: {{ f.id }},
-        name: "{{ f.name }}",
-        x: {{ f.x }},
-        y: {{ f.y }},
-        width: {{ f.width }},
-        height: {{ f.height }}
-      };
-      FaceTagger.make(face);
-    {% endfor %}
-  </script>
 
 {% endblock %}
