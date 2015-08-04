@@ -390,6 +390,7 @@ class AlbumEditTestCase(TestCase):
         )
         self.assertEqual(response.status_code, 404)
         userbob = User.objects.get(username='userbob')
+        album = Album.objects.all()[0]
         self.assertEqual(album.user, userbob)
         self.assertNotIn(album.title, 'other user')
 
