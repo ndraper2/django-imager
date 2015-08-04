@@ -43,7 +43,6 @@ INSTALLED_APPS = (
     'imager_profile',
     'imager_images',
     'registration',
-    'bootstrap3',
     'sorl.thumbnail',
 )
 
