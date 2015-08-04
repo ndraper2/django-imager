@@ -118,3 +118,41 @@ class ProfileViewTestCase(TestCase):
         self.assertEqual(len(response.redirect_chain), 1)
         self.assertIn('form method="post" action="/login/"',
                       response.content)
+
+
+def ProfileEditTestCase(TestCase):
+    def setUp(self):
+        user = UserFactory(username='userbob', email='bob@example.com')
+        user.set_password('secret')
+        user.save()
+        user.profile.camera = 'Canon'
+        user.profile.address = '123 Bob Drive'
+        user.profile.website = 'www.bob.com'
+        user.profile.photography_type = 'portraits'
+        user.profile.save()
+
+    def test_profile_edit_view(self):
+        c = Client()
+        c.login(username='userbob', password='secret')
+        user = User.objects.all()[0]
+        response = c.get('/profile/edit/')
+        self.assertIn(user.camera, response.content)
+        response = c.post(
+            '/profile/edit/',
+            {
+                'camera': 'new camera',
+                'first_name': 'bob',
+                'last_name': 'wehadababyitsaboy',
+                'email': 'bob@example.com',
+            },
+            follow=True
+        )
+        self.assertIn('new camera', response.content)
+        self.assertIn('wehadababyitsaboy', response.content)
+
+    def test_unauthenticated_redirect(self):
+        c = Client()
+        response = c.get('/profile/edit/', follow=True)
+        self.assertEqual(len(response.redirect_chain), 1)
+        self.assertIn('form method="post" action="/login/"',
+                      response.content)

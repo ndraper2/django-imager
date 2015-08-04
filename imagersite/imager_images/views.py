@@ -1,7 +1,6 @@
 from __future__ import unicode_literals
 from django.views.generic import DetailView
 from django.views.generic.edit import CreateView, UpdateView
-from imager_images.models import Photo, Album
 from django.db.models import Q
 from django.http import Http404
 from imager_images.models import Photo, Album, Face
