@@ -86,6 +86,9 @@ class AlbumViewTestCase(TestCase):
         user = UserFactory.create(username='userbob')
         user.set_password('secret')
         user.save()
+        user2 = UserFactory.create(username='usereve')
+        user2.set_password('secret')
+        user2.save()
         cover = PhotoFactory.create(user=user)
         cover.save()
         album = AlbumFactory.create(cover=cover, user=user)
@@ -103,14 +106,21 @@ class AlbumViewTestCase(TestCase):
         self.assertIn(photo.title, response.content)
 
     def test_album_not_owner(self):
-        user = UserFactory.create(username='usereve')
-        user.set_password('secret')
-        user.save()
         album = Album.objects.all()[0]
         c = Client()
         c.login(username='usereve', password='secret')
         response = c.get('/images/album/{}/'.format(album.id))
         assert response.status_code == 404
+
+    def test_album_public(self):
+        user = User.objects.get(username='userbob')
+        album = AlbumFactory.create(user=user, published='Public')
+        album.save()
+        c = Client()
+        c.login(username='usereve', password='secret')
+        response = c.get('/images/album/{}/'.format(album.id))
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(album.title, response.content)
 
     def test_album_unauthenticated(self):
         album = Album.objects.all()[0]
@@ -126,6 +136,9 @@ class PhotoViewTestCase(TestCase):
         user = UserFactory.create(username='userbob')
         user.set_password('secret')
         user.save()
+        user2 = UserFactory.create(username='usereve')
+        user2.set_password('secret')
+        user2.save()
         photo = PhotoFactory.create(user=user)
         photo.save()
 
@@ -138,14 +151,21 @@ class PhotoViewTestCase(TestCase):
         self.assertIn(photo.description, response.content)
 
     def test_photo_not_owner(self):
-        user = UserFactory.create(username='usereve')
-        user.set_password('secret')
-        user.save()
         photo = Photo.objects.all()[0]
         c = Client()
         c.login(username='usereve', password='secret')
         response = c.get('/images/photos/{}/'.format(photo.id))
         assert response.status_code == 404
+
+    def test_photo_public(self):
+        user = User.objects.get(username='userbob')
+        photo = PhotoFactory.create(user=user, published='Public')
+        photo.save()
+        c = Client()
+        c.login(username='usereve', password='secret')
+        response = c.get('/images/photos/{}/'.format(photo.id))
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(photo.title, response.content)
 
     def test_photo_unauthenticated(self):
         photo = Photo.objects.all()[0]
@@ -193,14 +213,11 @@ class LibraryViewTestCase(TestCase):
                       response.content)
 
 
-class PhotoFormTestCase(TestCase):
+class PhotoAddTestCase(TestCase):
     def setUp(self):
         user = UserFactory.create(username='userbob')
         user.set_password('secret')
         user.save()
-        user2 = UserFactory.create(username='usereve')
-        user2.set_password('secret')
-        user2.save()
         cover = PhotoFactory.create(user=user)
         cover.save()
         album = AlbumFactory.create(cover=cover, user=user)
@@ -219,6 +236,25 @@ class PhotoFormTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertIn('<img src=\'/media/cache/', response.content)
         self.assertIn('test title', response.content)
+
+    def test_photo_add_unauthenticated(self):
+        c = Client()
+        response = c.get('/images/photos/add', follow=True)
+        self.assertEqual(len(response.redirect_chain), 2)
+        self.assertIn('form method="post" action="/login/"',
+                      response.content)
+
+
+class PhotoEditTestCase(TestCase):
+    def setUp(self):
+        user = UserFactory.create(username='userbob')
+        user.set_password('secret')
+        user.save()
+        user2 = UserFactory.create(username='usereve')
+        user2.set_password('secret')
+        user2.save()
+        photo = PhotoFactory.create(user=user)
+        photo.save()
 
     def test_edit_photo(self):
         c = Client()
@@ -256,8 +292,113 @@ class PhotoFormTestCase(TestCase):
                 },
                 follow=True
             )
-        # self.assertEqual(2, len(Photo.objects.all()))
+        self.assertEqual(response.status_code, 404)
         userbob = User.objects.get(username='userbob')
-        usereve = User.objects.get(username='usereve')
-        import pdb; pdb.set_trace()
         self.assertEqual(photo.user, userbob)
+        self.assertNotIn(photo.title, 'other user')
+
+    def test_photo_edit_unauthenticated(self):
+        c = Client()
+        photo = Photo.objects.all()[0]
+        response = c.get('/images/photos/edit/{}/'.format(photo.id),
+                         follow=True)
+        self.assertEqual(len(response.redirect_chain), 1)
+        self.assertIn('form method="post" action="/login/"',
+                      response.content)
+
+
+class AlbumAddTestCase(TestCase):
+    def setUp(self):
+        user = UserFactory.create(username='userbob')
+        user.set_password('secret')
+        user.save()
+        user2 = UserFactory.create(username='usereve')
+        user2.set_password('secret')
+        user2.save()
+        photo = PhotoFactory.create(user=user)
+        photo.save()
+
+    def test_add_album(self):
+        c = Client()
+        c.login(username='userbob', password='secret')
+        photo = Photo.objects.all()[0]
+        response = c.post(
+            '/images/album/add/',
+            {
+                'title': 'new album title',
+                'photos': photo.id,
+                'published': 'Private',
+            },
+            follow=True
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertIn('new album title', response.content)
+        album = Album.objects.all()[0]
+        self.assertIn(photo, album.photos.all())
+
+    def test_album_add_unauthenticated(self):
+        c = Client()
+        response = c.get('/images/album/add/', follow=True)
+        self.assertEqual(len(response.redirect_chain), 1)
+        self.assertIn('form method="post" action="/login/"',
+                      response.content)
+
+
+class AlbumEditTestCase(TestCase):
+    def setUp(self):
+        user = UserFactory.create(username='userbob')
+        user.set_password('secret')
+        user.save()
+        user2 = UserFactory.create(username='usereve')
+        user2.set_password('secret')
+        user2.save()
+        cover = PhotoFactory.create(user=user)
+        cover.save()
+        album = AlbumFactory.create(cover=cover, user=user)
+        album.save()
+        album.photos.add(cover)
+
+    def test_edit_album(self):
+        c = Client()
+        c.login(username='userbob', password='secret')
+        album = Album.objects.all()[0]
+        response = c.get('/images/album/edit/{}/'.format(album.id))
+        self.assertIn(album.title, response.content)
+        response = c.post(
+            '/images/album/edit/{}/'.format(album.id),
+            {
+                'title': 'new test title',
+                'published': 'Private'
+            },
+            follow=True
+        )
+        self.assertIn('new test title', response.content)
+        response = c.get('/images/album/{}/'.format(album.id))
+        self.assertIn('new test title', response.content)
+
+    def test_edit_other_user(self):
+        c = Client()
+        c.login(username='usereve', password='secret')
+        album = Album.objects.all()[0]
+        response = c.post(
+            '/images/album/edit/{}/'.format(album.id),
+            {
+                'title': 'other user',
+                'published': 'Private'
+            },
+            follow=True
+        )
+        self.assertEqual(response.status_code, 404)
+        userbob = User.objects.get(username='userbob')
+        album = Album.objects.all()[0]
+        self.assertEqual(album.user, userbob)
+        self.assertNotIn(album.title, 'other user')
+
+    def test_album_edit_unauthenticated(self):
+        c = Client()
+        album = Album.objects.all()[0]
+        response = c.get('/images/album/edit/{}/'.format(album.id),
+                         follow=True)
+        self.assertEqual(len(response.redirect_chain), 1)
+        self.assertIn('form method="post" action="/login/"',
+                      response.content)
