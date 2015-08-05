@@ -13,7 +13,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 def get_faces(photo):
     import Algorithmia
     import base64
-    Algorithmia.apiKey = "Simple simritlrldm5w9OsZJ/L9QMifSG1"
+    Algorithmia.apiKey = os.environ['ALGORITHMIA_KEY']
     file_path = 'media/' + str(photo.file)
     file_path = os.path.join(BASE_DIR, file_path)
 
