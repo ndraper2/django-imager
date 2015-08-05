@@ -1,7 +1,6 @@
-from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
 from django.contrib.auth.models import User
-from django.contrib.gis.db import models as geomodels
+from django.contrib.gis.db import models
 
 PUBLIC = 'Public'
 SHARED = 'Shared'
@@ -28,7 +27,7 @@ class Photo(models.Model):
                                  default=PRIVATE)
 
     user = models.ForeignKey(User, related_name='photos', null=False)
-    location = geomodels.PointField(null=True)
+    location = models.PointField(null=True)
 
     def __str__(self):
         return self.title
