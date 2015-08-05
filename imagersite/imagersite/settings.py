@@ -45,6 +45,7 @@ INSTALLED_APPS = (
     'imager_images',
     'registration',
     'sorl.thumbnail',
+    'django.contrib.gis',
 )
 
 MIDDLEWARE_CLASSES = (
