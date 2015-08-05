@@ -91,7 +91,7 @@ WSGI_APPLICATION = 'imagersite.wsgi.application'
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
 
 DATABASES = {
-    'default': dj_database_url.config(default='postgres:///django-imager')
+    'default': dj_database_url.config(default='postgis:///django-imager')
 }
 
 
