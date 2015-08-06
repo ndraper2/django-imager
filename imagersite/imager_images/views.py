@@ -51,6 +51,7 @@ class PhotoView(DetailView):
             get_faces(self.object)
 
         context['faces'] = self.object.faces.all()
+
         return context
 
 
@@ -110,9 +111,9 @@ class AlbumEditView(UpdateView):
 
 
 class PhotoAddView(CreateView):
-    template_name = 'album_add.html'
+    template_name = 'photo_add.html'
     model = Photo
-    fields = ['file', 'title', 'description', 'published']
+    fields = ['file', 'title', 'description', 'published', 'location']
     success_url = '/images/library/'
 
     def form_valid(self, form):
@@ -124,7 +125,7 @@ class PhotoAddView(CreateView):
 class PhotoEditView(UpdateView):
     template_name = 'photo_add.html'
     model = Photo
-    fields = ['file', 'title', 'description', 'published']
+    fields = ['file', 'title', 'description', 'published', 'location']
     success_url = '/images/library/'
 
     def get_object(self):

@@ -1,6 +1,7 @@
-from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
 from django.contrib.auth.models import User
+from django.contrib.gis.db import models
+
 
 PUBLIC = 'Public'
 SHARED = 'Shared'
@@ -28,6 +29,9 @@ class Photo(models.Model):
 
     user = models.ForeignKey(User, related_name='photos', null=False)
 
+    location = models.PointField(null=True, blank=True)
+    objects = models.GeoManager()
+
     def __str__(self):
         return self.title
 
@@ -50,6 +54,8 @@ class Album(models.Model):
 
     cover = models.ForeignKey(Photo, related_name='cover_for', blank=True,
                               null=True)
+
+    objects = models.GeoManager()
 
     def __str__(self):
         return self.title

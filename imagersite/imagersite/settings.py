@@ -22,7 +22,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ['SECRET_KEY']
+SECRET_KEY = os.environ.get('SECRET_KEY', "alskdjf")
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -45,6 +45,8 @@ INSTALLED_APPS = (
     'imager_images',
     'registration',
     'sorl.thumbnail',
+    'django.contrib.gis',
+    'rest_framework',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -91,7 +93,7 @@ WSGI_APPLICATION = 'imagersite.wsgi.application'
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
 
 DATABASES = {
-    'default': dj_database_url.config(default='postgres:///django-imager')
+    'default': dj_database_url.config(default='postgis:///django-imager')
 }
 
 
@@ -130,3 +132,9 @@ INCLUDE_AUTH_URLS = False
 SITE_ID = 1
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ]
+}
