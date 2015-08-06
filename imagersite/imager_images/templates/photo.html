@@ -22,6 +22,34 @@
         {% endif %}
 <h3>Description</h3>
 <p>{{ photo.description }}</p>
+{% if photo.location %}
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
+    <script>
+        var map;
+        function initialize() {
+          map = new google.maps.Map(document.getElementById('map-canvas'), {
+            zoom: 15,
+            center: {lat: {{ photo.location.y }}, lng: {{ photo.location.x }}}
+          });
+                  map.data.addGeoJson({'type': 'FeatureCollection',
+                                       'features':
+                                        [
+                                        {'type': 'Feature',
+                                        'geometry': {'type': 'Point',
+                                                     'coordinates': [{{ photo.location.x }}, {{ photo.location.y }}]
+                                                    }
+                                        }
+                                        ]
+                                    });
+        }
+
+        google.maps.event.addDomListener(window, 'load', initialize);
+
+    </script>
+
+    <div id="map-canvas"></div>
+
+{% endif %}
 <p><strong>Uploaded:</strong> {{ photo.date_uploaded|date:"D d M Y" }}</p>
 <p><strong>Modified:</strong> {{ photo.date_modified|date:"D d M Y" }}</p>
 <p><strong>Published:</strong> {{ photo.date_published|date:"D d M Y" }}</p>

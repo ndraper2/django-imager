@@ -174,8 +174,17 @@ a:hover {
 #photo_add form p textarea,
 #photo_add form p select,
 #photo_add form p label,
-#photo_add input {
+#photo_add input,
+#photo_add form p a,
+#photo_add form p {
     float: left;
     clear: both;
     margin: 5px 0px;
+}
+
+#map-canvas {
+    height: 500px;
+    width: 500px;
+    float: left;
+    margin-right: 2em;
 }
