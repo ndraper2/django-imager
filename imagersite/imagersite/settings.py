@@ -46,6 +46,7 @@ INSTALLED_APPS = (
     'registration',
     'sorl.thumbnail',
     'django.contrib.gis',
+    'rest_framework',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -131,3 +132,9 @@ INCLUDE_AUTH_URLS = False
 SITE_ID = 1
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ]
+}

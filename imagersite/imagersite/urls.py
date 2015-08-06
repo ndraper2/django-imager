@@ -17,9 +17,7 @@ from django.conf.urls import include, url
 from django.conf.urls.static import static
 from django.contrib import admin
 from imagersite.views import IndexView
-from django.views.generic import TemplateView
 from django.conf import settings
-from django.contrib.auth.decorators import login_required
 
 urlpatterns = [
     url(r'^$', IndexView.as_view(), name='home'),
@@ -27,7 +25,8 @@ urlpatterns = [
     url(r'^accounts/', include('registration.backends.default.urls')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^images/', include('imager_images.urls')),
-    url(r'^profile/', include('imager_profile.urls'))
+    url(r'^profile/', include('imager_profile.urls')),
+    url(r'^api/', include('imager_api.urls')),
 ]
 
 if settings.DEBUG:
