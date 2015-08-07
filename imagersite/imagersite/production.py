@@ -1,6 +1,6 @@
 from settings import *
 
-DEBUG = True
+DEBUG = False
 TEMPLATE_DEBUG = False
 ALLOWED_HOSTS = [os.environ.get('ALLOWED_HOSTS', '')]
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
