@@ -95,6 +95,7 @@ WSGI_APPLICATION = 'imagersite.wsgi.application'
 DATABASES = {
     'default': dj_database_url.config(default='postgis:///django-imager')
 }
+DATABASES['default']['engine'] = 'django.contrib.gis.db.backends.postgis'
 
 
 # Internationalization
