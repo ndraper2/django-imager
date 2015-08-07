@@ -2,8 +2,8 @@ from settings import *
 
 DEBUG = True
 TEMPLATE_DEBUG = True
-CSRF_COOKIE_SECURE = True
-SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = False
+SESSION_COOKIE_SECURE = False
 ALLOWED_HOSTS = [os.environ.get('ALLOWED_HOSTS', '')]
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_USE_TLS = True
