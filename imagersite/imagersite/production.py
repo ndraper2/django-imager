@@ -1,9 +1,8 @@
 from settings import *
 
-DEBUG = True
-TEMPLATE_DEBUG = True
-ALLOWED_HOSTS = ['ec2-54-186-13-120.us-west-2.compute.amazonaws.com',
-                 'localhost']
+DEBUG = False
+TEMPLATE_DEBUG = False
+ALLOWED_HOSTS = ['*']
 CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
 
